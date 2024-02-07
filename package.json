@@ -1,12 +1,13 @@
 {
   "name": "e-com-backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "E-Com Backend Project",
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/server.js"
   },
-  "keywords": [],
+  "keywords": ["Backend", "Node", "Express"],
   "author": "",
   "license": "ISC",
   "dependencies": {
