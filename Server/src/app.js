@@ -2,13 +2,24 @@ import express from "express";
 import morgan from "morgan";
 import bodyPaeser from "body-parser";
 import httpError from "http-errors";
+import xssClean from "xss-clean";
+import rateLimit from "express-rate-limit";
 
 const app = express();
 app.use(morgan("dev"));
 app.use(bodyPaeser.json());
 app.use(bodyPaeser.urlencoded({ extended: true }));
+app.use(xssClean());
 
-app.get("/test", (req, res) => {
+app.use(rateLimit());
+
+const rateLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  limit: 5,
+  message: "To many request...!",
+});
+
+app.get("/test", rateLimiter, (req, res) => {
   res.status(200).send({
     message: `Server is Working is Properly...! `,
   });
