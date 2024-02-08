@@ -1,21 +1,24 @@
 import express from "express";
 import morgan from "morgan";
-import bodyPaeser from "body-parser";
+import bodyParser from "body-parser";
 import httpError from "http-errors";
 import xssClean from "xss-clean";
 import rateLimit from "express-rate-limit";
 import { userRouter } from "./routers/userRouter.js";
+import { seedRouter } from "./routers/seedRouter.js";
+
 
 const app = express();
 app.use(morgan("dev"));
-app.use(bodyPaeser.json());
-app.use(bodyPaeser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(xssClean());
 app.use(rateLimit());
 
 
 //
 app.use("/api/users",userRouter);
+app.use("/api/seed",seedRouter);
 
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
