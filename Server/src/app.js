@@ -12,16 +12,14 @@ app.use(bodyPaeser.urlencoded({ extended: true }));
 app.use(xssClean());
 app.use(rateLimit());
 
-
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   limit: 5,
   message: "To many request...!",
 });
 
-
-app.use(rateLimiter) // For Global use 
-app.get("/test",  (req, res) => {
+app.use(rateLimiter); // For Global use
+app.get("/test", (req, res) => {
   res.status(200).send({
     message: `Server is Working is Properly...! `,
   });
