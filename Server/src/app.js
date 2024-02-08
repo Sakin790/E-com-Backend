@@ -4,6 +4,7 @@ import bodyPaeser from "body-parser";
 import httpError from "http-errors";
 import xssClean from "xss-clean";
 import rateLimit from "express-rate-limit";
+import { userRouter } from "./routers/userRouter.js";
 
 const app = express();
 app.use(morgan("dev"));
@@ -12,6 +13,10 @@ app.use(bodyPaeser.urlencoded({ extended: true }));
 app.use(xssClean());
 app.use(rateLimit());
 
+
+//
+app.use("/api/users",userRouter);
+
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   limit: 5,
@@ -19,17 +24,7 @@ const rateLimiter = rateLimit({
 });
 
 app.use(rateLimiter); // For Global use
-app.get("/test", (req, res) => {
-  res.status(200).send({
-    message: `Server is Working is Properly...! `,
-  });
-});
 
-app.get("/api/profile", (req, res) => {
-  res.status(200).send({
-    message: `User Profile is Returned...! `,
-  });
-});
 //Client Side Error using httpError
 app.use((req, res, next) => {
   httpError(404, "Route not found");
