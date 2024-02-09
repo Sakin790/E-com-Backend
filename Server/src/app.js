@@ -6,6 +6,8 @@ import xssClean from "xss-clean";
 import rateLimit from "express-rate-limit";
 import { userRouter } from "./routers/userRouter.js";
 import { seedRouter } from "./routers/seedRouter.js";
+import { healthCheck } from "./controllers/healthController.js";
+
 
 
 const app = express();
@@ -19,6 +21,7 @@ app.use(rateLimit());
 //
 app.use("/api/users",userRouter);
 app.use("/api/seed",seedRouter);
+app.use("/api/users",healthCheck)
 
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
