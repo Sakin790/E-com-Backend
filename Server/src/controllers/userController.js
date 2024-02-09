@@ -1,21 +1,17 @@
-const user = [
-  {
-    id: 1,
-    name: "sakin",
-    age: 18,
-  },
-  {
-    id: 2,
-    name: "Mahid",
-    age: 20,
-  },
-];
+import { User } from "../model/userModel.js";
 
-const getUser = (req, res) => {
-  res.status(200).send({
-    message: `Server is Working is Properly...! `,
-    user,
-  });
+const getUser = async (req, res, next) => {
+  try {
+    const user = await User.find();
+    res.status(200).send({
+      message: `Server is Working is Properly...! `,
+      user,
+    });
+  } catch (error) {
+    console.log(`Fatching error while fatch user`, error);
+  }
 };
 
-export { getUser };
+
+
+export { getUser, };
