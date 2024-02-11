@@ -23,6 +23,7 @@ app.use("/api/users",userRouter);
 app.use("/api/seed",seedRouter);
 app.use("/api/users",healthCheck)
 
+//http://localhost:8080/api/users/healthCheck 
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   limit: 5,
