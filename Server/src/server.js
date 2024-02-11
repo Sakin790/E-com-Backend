@@ -9,5 +9,5 @@ ConnectDB()
     });
   })
   .catch((err) => {
-    console.log("MongoDB Connecion Error!!!", "from root server file", err);
+    console.log("MongoDB Connecion Error!!!", err);
   });
