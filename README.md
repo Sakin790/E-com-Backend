@@ -1,5 +1,6 @@
 # E-com Backend
- - package i ahve use
+ - package use
+```javaScript
  -  "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
@@ -15,3 +16,5 @@
     "nodemon": "^3.0.3"
   }
 }
+
+```
