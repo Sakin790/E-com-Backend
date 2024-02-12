@@ -1,7 +1,7 @@
 # E-com Backend
   package use
 ```javaScript
- -  "dependencies": {
+  "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "dotenv": "^16.4.1",
