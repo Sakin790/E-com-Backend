@@ -1,5 +1,5 @@
 # E-com Backend
- - package use
+  package use
 ```javaScript
  -  "dependencies": {
     "bcrypt": "^5.1.1",
