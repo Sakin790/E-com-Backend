@@ -6,9 +6,6 @@ import xssClean from "xss-clean";
 import rateLimit from "express-rate-limit";
 import { userRouter } from "./routers/userRouter.js";
 import { seedRouter } from "./routers/seedRouter.js";
-import { healthCheck } from "./controllers/healthController.js";
-
-
 
 const app = express();
 app.use(morgan("dev"));
@@ -17,13 +14,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(xssClean());
 app.use(rateLimit());
 
-
 //
-app.use("/api/users",userRouter); //gett all users
-app.use("/api/seed",seedRouter); // post all users
-app.use("/api/health",healthCheck)
+app.use("/api/users", userRouter); //gett all users
+app.use("/api/seed", seedRouter); // post all users
 
-//http://localhost:8080/api/users/healthCheck 
+//http://localhost:8080/api/users
+
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   limit: 5,

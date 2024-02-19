@@ -5,7 +5,7 @@ const getUser = async (req, res, next) => {
   try {
     const user = await User.find();
     res.status(200).send({
-      message: `User controller working `,
+      message: `User returned Successfully `,
       user,
     });
   } catch (error) {
