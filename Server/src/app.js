@@ -15,10 +15,10 @@ app.use(xssClean());
 app.use(rateLimit());
 
 //
-app.use("/api/users", userRouter); //gett all users
-app.use("/api/seed", seedRouter); // post all users
+app.use("/api/users", userRouter); // http://localhost:8080/api/users/
+app.use("/api/seed", seedRouter); // http://localhost:8080/api/seed/users
 
-//http://localhost:8080/api/users
+
 
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
