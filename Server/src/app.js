@@ -19,9 +19,9 @@ app.use(rateLimit());
 
 
 //
-app.use("/api/users",userRouter);
-app.use("/api/seed",seedRouter);
-app.use("/api/users",healthCheck)
+app.use("/api/users",userRouter); //gett all users
+app.use("/api/seed",seedRouter); // post all users
+app.use("/api/health",healthCheck)
 
 //http://localhost:8080/api/users/healthCheck 
 const rateLimiter = rateLimit({
