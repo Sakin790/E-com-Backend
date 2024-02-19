@@ -18,8 +18,6 @@ app.use(rateLimit());
 app.use("/api/users", userRouter); // http://localhost:8080/api/users/
 app.use("/api/seed", seedRouter); // http://localhost:8080/api/seed/users
 
-
-
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   limit: 5,

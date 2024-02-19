@@ -1,17 +1,15 @@
 import createHttpError from "http-errors";
 import { User } from "../model/userModel.js";
-
 const getUser = async (req, res, next) => {
   try {
     const search = req.query.search || "";
     const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 1;
+    const limit = Number(req.query.limit) || 5;
 
     const searchRegEx = new RegExp(".*" + search + ".* ", "i");
 
     const filter = {
       isAdmin: {
-        // is admin  true hole show korbe na
         $ne: true,
       },
       $or: [
