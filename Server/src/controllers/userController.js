@@ -10,6 +10,7 @@ const getUser = async (req, res, next) => {
     });
   } catch (error) {
     console.log(`Fatching error while fatch user`, error);
+    next(error)
   }
 };
 

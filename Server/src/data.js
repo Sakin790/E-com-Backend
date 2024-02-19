@@ -10,7 +10,7 @@ const data = {
     
     },
     {
-        name: "Sakin islam",
+        name: "mahid",
         email: "sakinislam790@gmail.com",
         password: "123256",
         image: "",
