@@ -21,7 +21,7 @@ app.use("/api/seed", seedRouter); // http://localhost:8080/api/seed/users
 app.use("/api", healthCheck); // http://localhost:8080/api/healthCheck
 app.use("/api/user", userRouter);
 app.use("/api/delete", userRouter); // http://localhost:8080/api/delete/
-
+app.use("/api/user", userRouter);
 
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,

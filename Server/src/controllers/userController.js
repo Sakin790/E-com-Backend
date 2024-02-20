@@ -80,9 +80,8 @@ const deleteUserById = async (req, res, next) => {
 
     const user = await User.findOneAndDelete(id);
     const userImagePath = user.image; // for delete image
-        deleteImage(userImagePath);
-  
-        
+    deleteImage(userImagePath);
+
     if (!user) {
       return res.status(500).send("No user found");
     }
@@ -98,4 +97,38 @@ const deleteUserById = async (req, res, next) => {
   }
 };
 
-export { getUsers, getUser, deleteUserById };
+const registerUser = async (req, res, next) => {
+  try {
+    const { name, email, phone, password } = req.body;
+
+    // Check if any required field is empty or whitespace
+    if ([name, email, phone, password].some((field) => !field || field.trim() === "")) {
+       new apiError(400, "All fields are required");
+    }
+
+    // Check if user with the same username or email already exists
+    const existedUser = await User.findOne({
+      $or: [{ username: name }, { email }],
+    });
+    if (existedUser) {
+       new apiError(409, "Username or email already exists");
+    }
+
+    // Create the user
+    const user = await User.create({
+      name: name.toLowerCase(), // Convert username to lowercase
+      email,
+      password,
+      phone
+    });
+
+    // Send a success response
+    res.status(201).json({ message: "User registered successfully", user });
+  } catch (error) {
+    // Pass error to the error handling middleware
+    next(error);
+  }
+};
+
+
+export { getUsers, getUser, deleteUserById, registerUser };

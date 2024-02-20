@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      required: [true, "Address is required"],
+      
     },
     phone: {
       type: String,
@@ -52,5 +52,4 @@ const userSchema = new mongoose.Schema(
 );
 
 const User = mongoose.model("Users", userSchema);
-
 export { User };
