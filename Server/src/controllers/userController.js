@@ -2,6 +2,7 @@ import createHttpError from "http-errors";
 import { User } from "../model/userModel.js";
 import mongoose from "mongoose";
 import { apiError } from "../utils/apiError.js";
+import { deleteImage } from "../helper/deleteImage.js";
 
 const getUsers = async (req, res, next) => {
   try {
@@ -78,6 +79,9 @@ const deleteUserById = async (req, res, next) => {
     const id = req.params.id;
 
     const user = await User.findOneAndDelete(id);
+    const userImagePath = user.image; // for delete image
+    deleteImage(userImagePath);
+
     if (!user) {
       return res.status(500).send("No user found");
     }
@@ -92,6 +96,5 @@ const deleteUserById = async (req, res, next) => {
     next(error);
   }
 };
-
 
 export { getUsers, getUser, deleteUserById };
