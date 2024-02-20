@@ -1,11 +1,11 @@
-import { promises as fs } from "fs";
+import { unlink } from "fs/promises";
 
 const deleteImage = async (userImagePath) => {
   try {
-    await fs.unlink(userImagePath);
-    console.log("user image deleted Successfully");
+    await unlink(userImagePath);
+    console.log("User image deleted successfully");
   } catch (error) {
-    console.log("User image dose not exist", error);
+    console.log("Error deleting user image:", error);
   }
 };
 

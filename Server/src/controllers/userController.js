@@ -80,8 +80,9 @@ const deleteUserById = async (req, res, next) => {
 
     const user = await User.findOneAndDelete(id);
     const userImagePath = user.image; // for delete image
-    deleteImage(userImagePath);
-
+        deleteImage(userImagePath);
+  
+        
     if (!user) {
       return res.status(500).send("No user found");
     }

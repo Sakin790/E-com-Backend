@@ -22,6 +22,7 @@ app.use("/api", healthCheck); // http://localhost:8080/api/healthCheck
 app.use("/api/user", userRouter);
 app.use("/api/delete", userRouter); // http://localhost:8080/api/delete/
 
+
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   limit: 5,
