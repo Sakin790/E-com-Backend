@@ -8,7 +8,6 @@ import { userRouter } from "./routers/userRouter.js";
 import { seedRouter } from "./routers/seedRouter.js";
 import { healthCheck } from "./routers/healthcheck.js";
 
-
 const app = express();
 app.use(morgan("dev"));
 app.use(bodyParser.json());
@@ -19,8 +18,9 @@ app.use(rateLimit());
 //
 app.use("/api/users", userRouter); // http://localhost:8080/api/users/
 app.use("/api/seed", seedRouter); // http://localhost:8080/api/seed/users
-app.use("/api", healthCheck);
+app.use("/api", healthCheck); // http://localhost:8080/api/healthCheck
 app.use("/api/user", userRouter);
+app.use("/api/delete", userRouter); // http://localhost:8080/api/delete/
 
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,

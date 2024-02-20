@@ -73,4 +73,23 @@ const getUser = async (req, res, next) => {
   }
 };
 
-export { getUsers, getUser };
+const deleteUserById = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+
+    const user = await User.findOneAndDelete(id);
+    if (!user) {
+      return res.status(500).send("No user found");
+    }
+    res.status(200).json({
+      message: "Deleted Successfull",
+    });
+  } catch (error) {
+    if (error instanceof mongoose.Error) {
+      next(new apiError(400, "Invalid ID"));
+    }
+    console.log("Internal server error", error);
+    next(error);
+  }
+};
+export { getUsers, getUser, deleteUserById };
