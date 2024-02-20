@@ -82,7 +82,7 @@ const deleteUserById = async (req, res, next) => {
       return res.status(500).send("No user found");
     }
     res.status(200).json({
-      message: "Deleted Successfull",
+      message: "Deleted Successfully",
     });
   } catch (error) {
     if (error instanceof mongoose.Error) {
@@ -92,4 +92,6 @@ const deleteUserById = async (req, res, next) => {
     next(error);
   }
 };
+
+
 export { getUsers, getUser, deleteUserById };
