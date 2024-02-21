@@ -3,6 +3,7 @@ import { User } from "../model/userModel.js";
 import mongoose from "mongoose";
 import { apiError } from "../utils/apiError.js";
 import { deleteImage } from "../helper/deleteImage.js";
+import { createJsonWebToken } from "../helper/jsonwebtoken.js";
 
 const getUsers = async (req, res, next) => {
   try {
@@ -113,8 +114,18 @@ const registerUser = async (req, res, next) => {
       $or: [{ phone }, { email }],
     });
     if (existedUser) {
-      new apiError(409, "Username or email already exists");
+      new apiError(409, "Phone or email already exists");
     }
+
+
+   //JWT Part
+    const key = process.env.JWT_ACTIVATION_KEY || hsgwfdwgqdvbnsfdhg;
+    const token = createJsonWebToken(
+      { name, email, phone, password },
+      key,
+      "10m"
+    );
+    console.log(`Your token is ${token}`);
 
     const user = await User.create({
       name: name.toLowerCase(),
@@ -123,7 +134,8 @@ const registerUser = async (req, res, next) => {
       phone,
     });
 
-    res.status(201).json({ message: "User registered successfully", user });
+
+    res.status(201).json({ message: "User registered successfully", token });
   } catch (error) {
     next(error);
   }
