@@ -117,8 +117,7 @@ const registerUser = async (req, res, next) => {
       new apiError(409, "Phone or email already exists");
     }
 
-
-   //JWT Part
+    //JWT Part
     const key = process.env.JWT_ACTIVATION_KEY || hsgwfdwgqdvbnsfdhg;
     const token = createJsonWebToken(
       { name, email, phone, password },
@@ -134,11 +133,14 @@ const registerUser = async (req, res, next) => {
       phone,
     });
 
-
-    res.status(201).json({ message: "User registered successfully", token });
+    res
+      .status(201)
+      .json({ message: "User registered successfully", token, user });
   } catch (error) {
     next(error);
   }
 };
 
 export { getUsers, getUser, deleteUserById, registerUser };
+
+
