@@ -141,6 +141,14 @@ const registerUser = async (req, res, next) => {
   }
 };
 
-export { getUsers, getUser, deleteUserById, registerUser };
+const healthcheck = (req, res) => {
+  return res.status(200).json({
+    message: "Server is Working ",
+  });
+};
+
+
+
+export { getUsers, getUser, deleteUserById, registerUser ,healthcheck };
 
 

@@ -12,9 +12,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(xssClean());
 app.use(rateLimit());
+app.use(rateLimiter); // For Global use
 
-//
-app.use("/api/users", router); // http://localhost:8080/api/users/
+
+app.use("/api/users", router); 
 
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -22,7 +23,6 @@ const rateLimiter = rateLimit({
   message: "To many request...!",
 });
 
-app.use(rateLimiter); // For Global use
 
 
 app.use((req, res, next) => {
