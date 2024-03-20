@@ -35,7 +35,7 @@ const getUsers = async (req, res, next) => {
     const count = await User.find().countDocuments();
 
     if (!users) {
-      throw createHttpError(404, " No user found");
+      throw new apiError(404, " No user found");
     }
     res.status(200).send({
       message: `User returned Successfully `,
