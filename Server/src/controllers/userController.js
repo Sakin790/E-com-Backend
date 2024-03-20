@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import { apiError } from "../utils/apiError.js";
 import { deleteImage } from "../helper/deleteImage.js";
 import { createJsonWebToken } from "../helper/jsonwebtoken.js";
+import { data } from "../data.js";
+
 
 const getUsers = async (req, res, next) => {
   try {
@@ -147,8 +149,16 @@ const healthcheck = (req, res) => {
   });
 };
 
+const seedUser = async (req, res, next) => {
+  try {
+    await User.deleteMany({});
+    const users = await User.insertMany(data.users);
+    return res.status(201).json(users);
+  } catch (err) {
+    next(err);
+  }
+};
 
-
-export { getUsers, getUser, deleteUserById, registerUser ,healthcheck };
+export { getUsers, getUser, deleteUserById, registerUser ,healthcheck , seedUser };
 
 
