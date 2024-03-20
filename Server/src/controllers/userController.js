@@ -1,11 +1,9 @@
-
 import { User } from "../model/userModel.js";
 import mongoose from "mongoose";
 import { apiError } from "../utils/apiError.js";
 import { deleteImage } from "../helper/deleteImage.js";
 import { createJsonWebToken } from "../helper/jsonwebtoken.js";
 import { data } from "../data.js";
-
 
 const getUsers = async (req, res, next) => {
   try {
@@ -89,7 +87,7 @@ const deleteUserById = async (req, res, next) => {
       return res.status(500).send("No user found");
     }
     res.status(200).json({
-      message: "Deleted Successfully",
+      message: `${user.name} Deleted Successfully`,
     });
   } catch (error) {
     if (error instanceof mongoose.Error) {
@@ -119,7 +117,6 @@ const registerUser = async (req, res, next) => {
       new apiError(409, "Phone or email already exists");
     }
 
-   
     const key = process.env.JWT_ACTIVATION_KEY || hsgwfdwgqdvbnsfdhg;
     const token = createJsonWebToken(
       { name, email, phone, password },
@@ -159,6 +156,11 @@ const seedUser = async (req, res, next) => {
   }
 };
 
-export { getUsers, getUser, deleteUserById, registerUser ,healthcheck , seedUser };
-
-
+export {
+  getUsers,
+  getUser,
+  deleteUserById,
+  registerUser,
+  healthcheck,
+  seedUser,
+};
