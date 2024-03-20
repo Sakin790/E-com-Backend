@@ -4,12 +4,14 @@ import {
   getUser,
   deleteUserById,
   registerUser,
+  healthcheck,
 } from "../controllers/userController.js";
 
-const userRouter = express.Router();
-userRouter.get("/", getUsers);
-userRouter.get("/:id", getUser);
-userRouter.delete("/:id", deleteUserById);
-userRouter.post("/register", registerUser)
+const router = express.Router();
+router.route("/healthCheck").get(healthcheck);
+router.route("/").get(getUsers);
+router.route("/:id").get(getUser);
+router.route("/:id").delete(deleteUserById);
+router.route("/register").post(registerUser);
 
-export { userRouter };
+export { router };
