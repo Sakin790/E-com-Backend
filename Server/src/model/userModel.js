@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      set: (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
+    
     },
     image: {
       type: String,
@@ -50,6 +50,12 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+}); 
 
 const User = mongoose.model("Users", userSchema);
 export { User };

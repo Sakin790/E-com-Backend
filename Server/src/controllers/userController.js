@@ -1,4 +1,4 @@
-import createHttpError from "http-errors";
+
 import { User } from "../model/userModel.js";
 import mongoose from "mongoose";
 import { apiError } from "../utils/apiError.js";
