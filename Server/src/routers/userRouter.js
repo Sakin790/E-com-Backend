@@ -22,7 +22,6 @@ router.route("/register").post(
       name: "image",
       maxCount: 1,
     },
-  
   ]),
   registerUser
 );
