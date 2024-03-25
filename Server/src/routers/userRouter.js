@@ -6,8 +6,9 @@ import {
   deleteUserById,
   registerUser,
   healthcheck,
-  seedUser
+  seedUser,
 } from "../controllers/userController.js";
+import { upload } from "../middleware/multer.middleware.js";
 
 const router = express.Router();
 router.route("/healthCheck").get(healthcheck);
@@ -15,6 +16,15 @@ router.route("/seed").post(seedUser);
 router.route("/").get(getUsers);
 router.route("/:id").get(getUser);
 router.route("/delete/:id").delete(deleteUserById);
-router.route("/register").post(registerUser);
+router.route("/register").post(
+  upload.fields([
+    {
+      name: "image",
+      maxCount: 1,
+    },
+  
+  ]),
+  registerUser
+);
 
 export { router };

@@ -109,7 +109,7 @@ const registerUser = async (req, res, next) => {
     ) {
       new apiError(400, "All fields are required");
     }
-
+    const image = req.files?.image[0]?.path;
     const existedUser = await User.findOne({
       $or: [{ phone }, { email }],
     });
@@ -123,13 +123,13 @@ const registerUser = async (req, res, next) => {
       key,
       "10m"
     );
-   
 
     const user = await User.create({
       name: name.toLowerCase(),
       email,
       password,
       phone,
+      image,
     });
 
     res
