@@ -123,7 +123,7 @@ const registerUser = async (req, res, next) => {
       key,
       "10m"
     );
-    console.log(`Your token is ${token}`);
+   
 
     const user = await User.create({
       name: name.toLowerCase(),
