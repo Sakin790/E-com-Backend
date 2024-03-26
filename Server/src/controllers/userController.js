@@ -109,7 +109,6 @@ const registerUser = async (req, res, next) => {
     ) {
       new apiError(400, "All fields are required");
     }
-
     const existedUser = await User.findOne({
       $or: [{ phone }, { email }],
     });
