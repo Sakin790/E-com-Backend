@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 const validation = [
-  body(name)
+  body("name")
     .trim()
     .notEmpty()
     .withMessage("Name is Required")
