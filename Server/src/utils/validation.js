@@ -16,6 +16,7 @@ const validation = [
   .trim()
   .notEmpty()
   .withMessage("Password is Required"),
+  
 ];
 
 export { validation };
