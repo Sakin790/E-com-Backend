@@ -20,6 +20,6 @@ router.route("/:id").get(getUser);
 router.route("/delete/:id").delete(deleteUserById);
 router
   .route("/register")
-  .post(validation, runValidation, upload.single("image"), registerUser);
+  .post(upload.single("image"), validation, runValidation, registerUser);
 
 export { router };
