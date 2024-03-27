@@ -154,6 +154,9 @@ const seedUser = async (req, res, next) => {
   }
 };
 
+const updateUserByid = async (req,res, next) => {
+  
+}
 export {
   getUsers,
   getUser,
