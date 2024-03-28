@@ -5,7 +5,6 @@ import { apiResponse } from "../utils/apiResponse.js";
 import { deleteImage } from "../helper/deleteImage.js";
 import { createJsonWebToken } from "../helper/jsonwebtoken.js";
 import { data } from "../data.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const getUsers = async (req, res, next) => {
@@ -192,36 +191,6 @@ const updateUserById = async (req, res, next) => {
     return res
       .status(500)
       .json({ error: "Something went wrong while updating user" });
-  }
-};
-
-const loginUser = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      throw new apiError(404, "User not found");
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      throw new apiError(401, "Invalid password");
-    }
-    if (user.isBanned) {
-      throw new apiError(403, "You are not allowed");
-    }
-
-    const response = new apiResponse(200, user, "User logged in successfully");
-    res.status(response.status).json(response);
-  } catch (error) {
-    const apiErr = new apiError(
-      404,
-      "Something went wrong while logging in",
-      error
-    );
-    next(apiErr);
   }
 };
 
