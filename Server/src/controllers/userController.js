@@ -5,6 +5,7 @@ import { apiResponse } from "../utils/apiResponse.js";
 import { deleteImage } from "../helper/deleteImage.js";
 import { createJsonWebToken } from "../helper/jsonwebtoken.js";
 import { data } from "../data.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const getUsers = async (req, res, next) => {
   try {
@@ -116,6 +117,7 @@ const registerUser = async (req, res, next) => {
     if (existedUser) {
       new apiError(409, "Phone or email already exists");
     }
+
 
     //console.log(req.file.size);
     const key = process.env.JWT_ACTIVATION_KEY || hsgwfdwgqdvbnsfdhg;
