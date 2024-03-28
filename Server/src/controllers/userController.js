@@ -6,7 +6,8 @@ import { deleteImage } from "../helper/deleteImage.js";
 import { createJsonWebToken } from "../helper/jsonwebtoken.js";
 import { data } from "../data.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
-
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 const getUsers = async (req, res, next) => {
   try {
     const search = req.query.search || "";
@@ -118,7 +119,6 @@ const registerUser = async (req, res, next) => {
       new apiError(409, "Phone or email already exists");
     }
 
-
     //console.log(req.file.size);
     const key = process.env.JWT_ACTIVATION_KEY || hsgwfdwgqdvbnsfdhg;
     const token = createJsonWebToken(
@@ -195,6 +195,78 @@ const updateUserById = async (req, res, next) => {
   }
 };
 
+const loginUser = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      throw new apiError(404, "User not found");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      throw new apiError(401, "Invalid password");
+    }
+    if (user.isBanned) {
+      throw new apiError(403, "You are not allowed");
+    }
+
+    const response = new apiResponse(200, user, "User logged in successfully");
+    res.status(response.status).json(response);
+  } catch (error) {
+    const apiErr = new apiError(
+      404,
+      "Something went wrong while logging in",
+      error
+    );
+    next(apiErr);
+  }
+};
+
+const Login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(401).json({
+        message: "All fields are required.",
+        success: false,
+      });
+    }
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({
+        message: "Incorrect email or password",
+        success: false,
+      });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({
+        message: "Incorect email or password",
+        success: false,
+      });
+    }
+    const tokenData = {
+      userId: user._id,
+    };
+    const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET, {
+      expiresIn: "1d",
+    });
+    return res
+      .status(201)
+      .cookie("token", token, { expiresIn: "1d", httpOnly: true })
+      .json({
+        message: `Welcome back ${user.name}`,
+        user,
+        success: true,
+      });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   getUsers,
   getUser,
@@ -203,4 +275,6 @@ export {
   healthcheck,
   seedUser,
   updateUserById,
+  loginUser,
+  Login,
 };
