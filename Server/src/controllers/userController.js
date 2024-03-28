@@ -192,6 +192,7 @@ const updateUserById = async (req, res, next) => {
       .json({ error: "Something went wrong while updating user" });
   }
 };
+
 export {
   getUsers,
   getUser,
