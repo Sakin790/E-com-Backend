@@ -155,7 +155,12 @@ const seedUser = async (req, res, next) => {
 };
 
 const updateUserByid = async (req,res, next) => {
-  
+  const userId = req.params.id;
+  const updateOption = {
+    new :true,
+    runValidators: true,
+    context: 'query'
+  }
 }
 export {
   getUsers,
