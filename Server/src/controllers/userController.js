@@ -1,6 +1,7 @@
 import { User } from "../model/userModel.js";
 import mongoose from "mongoose";
 import { apiError } from "../utils/apiError.js";
+import { apiResponse } from "../utils/apiResponse.js";
 import { deleteImage } from "../helper/deleteImage.js";
 import { createJsonWebToken } from "../helper/jsonwebtoken.js";
 import { data } from "../data.js";
@@ -116,6 +117,7 @@ const registerUser = async (req, res, next) => {
       new apiError(409, "Phone or email already exists");
     }
 
+    //console.log(req.file.size);
     const key = process.env.JWT_ACTIVATION_KEY || hsgwfdwgqdvbnsfdhg;
     const token = createJsonWebToken(
       { name, email, phone, password },
@@ -154,14 +156,42 @@ const seedUser = async (req, res, next) => {
   }
 };
 
-const updateUserByid = async (req,res, next) => {
-  const userId = req.params.id;
-  const updateOption = {
-    new :true,
-    runValidators: true,
-    context: 'query'
+const updateUserById = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const updateOption = {
+      new: true,
+      runValidators: true,
+      context: "query",
+    };
+
+    let updates = {
+      ...(req.body.name && { name: req.body.name }),
+      ...(req.body.email && { email: req.body.email }),
+      ...(req.body.phone && { phone: req.body.phone }),
+      ...(req.body.password && { password: req.body.password }),
+    };
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      updates,
+      updateOption
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res
+      .status(201)
+      .json({ message: "User updated successfully", user: updatedUser });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return res
+      .status(500)
+      .json({ error: "Something went wrong while updating user" });
   }
-}
+};
 export {
   getUsers,
   getUser,
@@ -169,4 +199,5 @@ export {
   registerUser,
   healthcheck,
   seedUser,
+  updateUserById,
 };

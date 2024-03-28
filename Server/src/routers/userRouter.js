@@ -7,6 +7,7 @@ import {
   registerUser,
   healthcheck,
   seedUser,
+  updateUserById,
 } from "../controllers/userController.js";
 import { upload } from "../middleware/multer.middleware.js";
 import { validation } from "../utils/validation.js";
@@ -22,4 +23,5 @@ router
   .route("/register")
   .post(upload.single("image"), validation, runValidation, registerUser);
 
+router.route("/update/:id").put(upload.single("image"), updateUserById);
 export { router };
