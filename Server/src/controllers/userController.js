@@ -225,7 +225,12 @@ const Login = async (req, res, next) => {
     });
     return res
       .status(201)
-      .cookie("token", token, { expiresIn: "1d", httpOnly: true, secure: true,sameSite: "none" })
+      .cookie("token", token, {
+        expiresIn: "1d",
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      })
       .json({
         message: `Welcome back ${user.name}`,
         user,
@@ -242,6 +247,7 @@ const logout = (req, res) => {
       success: true
   })
 }
+
 
 export {
   getUsers,
