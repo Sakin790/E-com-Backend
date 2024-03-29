@@ -7,6 +7,7 @@ import { createJsonWebToken } from "../helper/jsonwebtoken.js";
 import { data } from "../data.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
 const getUsers = async (req, res, next) => {
   try {
     const search = req.query.search || "";
