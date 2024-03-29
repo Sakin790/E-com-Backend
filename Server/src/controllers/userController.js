@@ -243,11 +243,10 @@ const Login = async (req, res, next) => {
 
 const logout = (req, res) => {
   return res.cookie("token", "", { expiresIn: new Date(Date.now()) }).json({
-      message: "user logged out successfully.",
-      success: true
-  })
-}
-
+    message: "user logged out successfully.",
+    success: true,
+  });
+};
 
 export {
   getUsers,
