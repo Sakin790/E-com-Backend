@@ -1,7 +1,6 @@
 import { User } from "../model/userModel.js";
 import mongoose from "mongoose";
 import { apiError } from "../utils/apiError.js";
-import { apiResponse } from "../utils/apiResponse.js";
 import { deleteImage } from "../helper/deleteImage.js";
 import { createJsonWebToken } from "../helper/jsonwebtoken.js";
 import { data } from "../data.js";
