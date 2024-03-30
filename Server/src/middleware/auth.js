@@ -27,8 +27,15 @@ const isAuthenticated = async (req, res, next) => {
 const isloggedOut = async (req, res, next) => {
   try {
     const token = req.cookies.token;
-    if (token) {
-      throw new apiError(400, "User already logged in");
+    try {
+      if (token) {
+        const decoded = jwt.verify(token, process.env.JWT_ACTIVATION_KEY);
+        if (decoded) {
+          throw new apiError(400, "User already logged in");
+        }
+      }
+    } catch (error) {
+      throw new apiError(400, "Token hass been expiry");
     }
     next();
   } catch (error) {
