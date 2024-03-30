@@ -200,58 +200,45 @@ const Login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(401).json({
-        message: "All fields are required.",
-        success: false,
-      });
-    }
+        return res.status(401).json({
+            message: "All fields are required.",
+            success: false
+        })
+    };
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({
-        message: "Incorrect email or password",
-        success: false,
-      });
+        return res.status(401).json({
+            message: "Incorrect email or password",
+            success: false
+        })
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({
-        message: "Incorect email or password",
-        success: false,
-      });
+        return res.status(401).json({
+            message: "Incorect email or password",
+            success: false
+        });
     }
     const tokenData = {
-      userId: user._id,
-    };
-    const accessToken = await jwt.sign(tokenData, process.env.TOKEN_SECRET, {
-      expiresIn: "1d",
-    });
-    console.log(accessToken);
-    return res
-      .status(201)
-      .cookie("acessToken", accessToken, {
-        expiresIn: "1d",
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-      })
-      .json({
+        userId: user._id
+    }
+    const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET, { expiresIn: "1d" });
+    return res.status(201).cookie("token", token, { expiresIn: "1d", httpOnly: true }).json({
         message: `Welcome back ${user.name}`,
         user,
-        success: true,
-      });
-  } catch (error) {
-    next(error);
-  }
+        success: true
+    })
+} catch (error) {
+    console.log(error);
+}
 };
 
 const logout = (req, res) => {
-  return res
-    .cookie("acessToken", "", { expiresIn: new Date(Date.now()) })
-    .json({
+  return res.cookie("token", "", { expiresIn: new Date(Date.now()) }).json({
       message: "user logged out successfully.",
-      success: true,
-    });
-};
+      success: true
+  })
+}
 
 export {
   getUsers,

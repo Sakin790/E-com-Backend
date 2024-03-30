@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import xssClean from "xss-clean";
 import rateLimit from "express-rate-limit";
 import { router } from "./routers/userRouter.js";
+import cookieParser from "cookie-parser";
 
 
 const app = express();
@@ -18,10 +19,9 @@ const rateLimiter = rateLimit({
   message: "To many request...!",
 });
 app.use(rateLimiter);
+app.use(cookieParser());
 
 
-
-
-app.use("/api/users", router); 
+app.use("/api/users", router);
 
 export default app;

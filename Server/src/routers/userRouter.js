@@ -14,13 +14,13 @@ import {
 import { upload } from "../middleware/multer.middleware.js";
 import { validation } from "../utils/validation.js";
 import { runValidation } from "../index.js";
-import { isLoggedin } from "../middleware/auth.js";
+import { isAuthenticated } from "../middleware/auth.js";
 
 const router = express.Router();
 router.route("/healthCheck").get(healthcheck);
 router.route("/seed").post(seedUser);
 router.route("/").get(getUsers);
-router.route("/:id").get(getUser);
+router.route("/:id").get(isAuthenticated, getUser);
 router.route("/delete/:id").delete(deleteUserById);
 router
   .route("/register")
