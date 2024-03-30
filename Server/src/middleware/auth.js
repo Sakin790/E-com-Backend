@@ -12,12 +12,16 @@ const isAuthenticated = async (req, res, next) => {
     const token = req.cookies.token;
     if (!token) {
       return res.status(401).json({
-        message: "User not authenticated.",
         success: false,
+        message: "User not authenticated.",
       });
     }
     const decode = await jwt.verify(token, process.env.TOKEN_SECRET);
-    req.user = decode.userId;
+    if (!decode) {
+      throw new apiError(401, "Invalid token , please login");
+    }
+    req.user = decode.user; // jekono somoy use korte parbo
+
     next();
   } catch (error) {
     console.log(error);
@@ -44,4 +48,16 @@ const isloggedOut = async (req, res, next) => {
       .json(new apiResponse(error.statusCode, error.message));
   }
 };
-export { isAuthenticated, isloggedOut };
+
+const isAdmin = async (req, res, next) => {
+  try {
+    if (!req.user.isAdmin) {
+      return res.status(403).json({ message: "Access forbidden. Admin privileges required." });
+    }
+    next();
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export { isAuthenticated, isloggedOut, isAdmin };
