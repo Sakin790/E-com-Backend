@@ -19,7 +19,7 @@ import { isLoggedin } from "../middleware/auth.js";
 const router = express.Router();
 router.route("/healthCheck").get(healthcheck);
 router.route("/seed").post(seedUser);
-router.route("/").get(isLoggedin, getUsers);
+router.route("/").get(getUsers);
 router.route("/:id").get(getUser);
 router.route("/delete/:id").delete(deleteUserById);
 router

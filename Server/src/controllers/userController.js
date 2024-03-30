@@ -150,8 +150,10 @@ const healthcheck = (req, res) => {
 const seedUser = async (req, res, next) => {
   try {
     await User.deleteMany({});
-    const users = await User.insertMany(data.users);
-    return res.status(201).json(users);
+    //const users = await User.insertMany(data.users);
+    return res.status(201).json({
+      message: "user deleted successfully",
+    });
   } catch (err) {
     next(err);
   }
@@ -220,12 +222,13 @@ const Login = async (req, res, next) => {
     const tokenData = {
       userId: user._id,
     };
-    const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET, {
+    const accessToken = await jwt.sign(tokenData, process.env.TOKEN_SECRET, {
       expiresIn: "1d",
     });
+    console.log(accessToken);
     return res
       .status(201)
-      .cookie("token", token, {
+      .cookie("acessToken", accessToken, {
         expiresIn: "1d",
         httpOnly: true,
         secure: true,
@@ -242,10 +245,12 @@ const Login = async (req, res, next) => {
 };
 
 const logout = (req, res) => {
-  return res.cookie("token", "", { expiresIn: new Date(Date.now()) }).json({
-    message: "user logged out successfully.",
-    success: true,
-  });
+  return res
+    .cookie("acessToken", "", { expiresIn: new Date(Date.now()) })
+    .json({
+      message: "user logged out successfully.",
+      success: true,
+    });
 };
 
 export {
