@@ -3,10 +3,11 @@ const data = {
     {
       name: "Alice Johnson",
       email: "alicejohnson@example.com",
-      password: "alice1234",
+      password: "00000000",
       image: "",
       address: "789 Pine Street, Town, Country",
       phone: "1231231234",
+      isAdmin: true,
     },
     {
       name: "Bob Smith",
