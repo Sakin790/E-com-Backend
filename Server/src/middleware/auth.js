@@ -1,5 +1,8 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { apiError } from "../utils/apiError.js";
+import { apiResponse } from "../utils/apiResponse.js";
+
 dotenv.config({
   path: "../config/.env",
 });
@@ -20,4 +23,18 @@ const isAuthenticated = async (req, res, next) => {
     console.log(error);
   }
 };
-export { isAuthenticated };
+
+const isloggedOut = async (req, res, next) => {
+  try {
+    const token = req.cookies.token;
+    if (token) {
+      throw new apiError(400, "User already logged in");
+    }
+    next();
+  } catch (error) {
+    return res
+      .status(error.statusCode || 500)
+      .json(new apiResponse(error.statusCode, error.message));
+  }
+};
+export { isAuthenticated, isloggedOut };

@@ -14,7 +14,7 @@ import {
 import { upload } from "../middleware/multer.middleware.js";
 import { validation } from "../utils/validation.js";
 import { runValidation } from "../index.js";
-import { isAuthenticated } from "../middleware/auth.js";
+import { isAuthenticated, isloggedOut } from "../middleware/auth.js";
 
 const router = express.Router();
 router.route("/healthCheck").get(healthcheck);
@@ -27,6 +27,6 @@ router
   .post(upload.single("image"), validation, runValidation, registerUser);
 
 router.route("/update/:id").put(upload.single("image"), updateUserById);
-router.route("/login").post(Login);
+router.route("/login").post(isloggedOut, Login);
 router.route("/logout").post(logout);
 export { router };
