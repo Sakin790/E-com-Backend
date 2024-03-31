@@ -207,7 +207,7 @@ const Login = async (req, res, next) => {
         success: false,
       });
     }
-    const user = await User.findOne({ email }).select("-password");
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({
         message: "Incorrect email or password",
@@ -245,6 +245,29 @@ const logout = (req, res) => {
   });
 };
 
+const BanUserByID = async (req, res, next) => {
+  const userID = req.params.id;
+  if (!userID)
+    return res.status(403).json({
+      message: "UserID is required",
+    });
+
+  /*model er is banned field ta update korbo */
+  const updates = { isBanned: true };
+  /*return korar somoy update value retunr korbe */
+  const updateOption = {
+    new: true,
+    runValidators: true,
+    context: "query",
+  };
+  /* Main Query */
+  const updateUser = await User.findByIdAndUpdate(
+    userID,
+    updates,
+    updateOption
+  ).select("-password");
+};
+
 export {
   getUsers,
   getUser,
@@ -255,4 +278,5 @@ export {
   updateUserById,
   Login,
   logout,
+  BanUserByID,
 };

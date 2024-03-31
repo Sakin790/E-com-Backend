@@ -40,9 +40,9 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    isBan: {
+    isBanned: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   { timestamps: true }
