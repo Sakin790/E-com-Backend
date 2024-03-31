@@ -6,7 +6,6 @@ import rateLimit from "express-rate-limit";
 import { router } from "./routers/userRouter.js";
 import cookieParser from "cookie-parser";
 
-
 const app = express();
 app.use(morgan("dev"));
 app.use(bodyParser.json());
@@ -14,13 +13,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(xssClean());
 app.use(rateLimit());
 const rateLimiter = rateLimit({
-  windowMs: 1 * 60 * 1000,
-  limit: 5,
+  windowMs: 1 * 60 * 10000,
+  limit: 10,
   message: "To many request...!",
 });
 app.use(rateLimiter);
 app.use(cookieParser());
-
 
 app.use("/api/users", router);
 

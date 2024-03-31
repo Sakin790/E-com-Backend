@@ -6,6 +6,7 @@ import { createJsonWebToken } from "../helper/jsonwebtoken.js";
 import { data } from "../data.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { apiResponse } from "../utils/apiResponse.js";
 
 const getUsers = async (req, res, next) => {
   try {
@@ -246,26 +247,35 @@ const logout = (req, res) => {
 };
 
 const BanUserByID = async (req, res, next) => {
-  const userID = req.params.id;
-  if (!userID)
-    return res.status(403).json({
-      message: "UserID is required",
-    });
+  try {
+    const userID = req.params.id;
+    if (!userID)
+      return res.status(403).json({
+        message: "UserID is required",
+      });
 
-  /*model er is banned field ta update korbo */
-  const updates = { isBanned: true };
-  /*return korar somoy update value retunr korbe */
-  const updateOption = {
-    new: true,
-    runValidators: true,
-    context: "query",
-  };
-  /* Main Query */
-  const updateUser = await User.findByIdAndUpdate(
-    userID,
-    updates,
-    updateOption
-  ).select("-password");
+    /*model er is banned field ta update korbo */
+    const updates = { isBanned: true };
+    /*return korar somoy update value retunr korbe */
+    const updateOption = {
+      new: true,
+      runValidators: true,
+      context: "query",
+    };
+    /* Main Query */
+    const updateUser = await User.findByIdAndUpdate(
+      userID,
+      updates,
+      updateOption
+    ).select("-password");
+
+    if (!updateUser) {
+      throw new apiError(403, "User not found");
+    }
+    return new apiResponse(201, "success", updateUser);
+  } catch (error) {
+    next(error);
+  }
 };
 
 export {
