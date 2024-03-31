@@ -235,7 +235,7 @@ const Login = async (req, res, next) => {
         success: true,
       });
   } catch (error) {
-    console.log(error);
+    console.log("something went wrong while trying to Login", error);
   }
 };
 

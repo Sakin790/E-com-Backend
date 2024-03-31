@@ -50,9 +50,13 @@ const isloggedOut = async (req, res, next) => {
 };
 
 const isAdmin = async (req, res, next) => {
+  console.log(req.user.isAdmin);
+  
   try {
     if (!req.user.isAdmin) {
-      return res.status(403).json({ message: "Access forbidden. Admin privileges required." });
+      return res
+        .status(403)
+        .json({ message: "Access forbidden. Admin privileges required." });
     }
     next();
   } catch (error) {

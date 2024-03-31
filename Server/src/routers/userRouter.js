@@ -18,7 +18,7 @@ import { runValidation } from "../index.js";
 import { isLoggedIn, isloggedOut, isAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
-router.route("/healthCheck").get( isLoggedIn, healthcheck);
+router.route("/healthCheck").get(isLoggedIn, isAdmin, healthcheck);
 router.route("/seed").post(seedUser);
 router.route("/").get(getUsers);
 router.route("/:id").get(isLoggedIn, getUser);
