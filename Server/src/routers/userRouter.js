@@ -12,7 +12,7 @@ import {
   logout,
 } from "../controllers/userController.js";
 import { upload } from "../middleware/multer.middleware.js";
-import { validation } from "../utils/validation.js";
+import { validation, LoginValidation } from "../utils/validation.js";
 import { runValidation } from "../index.js";
 import { isLoggedIn, isloggedOut, isAdmin } from "../middleware/auth.js";
 
@@ -27,6 +27,9 @@ router
   .post(upload.single("image"), validation, runValidation, registerUser);
 
 router.route("/update/:id").put(upload.single("image"), updateUserById);
-router.route("/login").post(isloggedOut, Login);
+
+router.route("/login").post(LoginValidation, runValidation, isloggedOut, Login);
+
 router.route("/logout").post(logout);
+
 export { router };

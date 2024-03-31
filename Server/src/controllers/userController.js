@@ -120,6 +120,8 @@ const registerUser = async (req, res, next) => {
 
     //console.log(req.file.size);
     const key = process.env.JWT_ACTIVATION_KEY || hsgwfdwgqdvbnsfdhg;
+
+    /* createjsonWebtoken function take three peramiter */
     const token = createJsonWebToken(
       { name, email, phone, password },
       key,
@@ -205,7 +207,7 @@ const Login = async (req, res, next) => {
         success: false,
       });
     }
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("-password");
     if (!user) {
       return res.status(401).json({
         message: "Incorrect email or password",
