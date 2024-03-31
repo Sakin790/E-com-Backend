@@ -14,13 +14,13 @@ import {
 import { upload } from "../middleware/multer.middleware.js";
 import { validation } from "../utils/validation.js";
 import { runValidation } from "../index.js";
-import { isAuthenticated, isloggedOut, isAdmin } from "../middleware/auth.js";
+import { isLoggedIn, isloggedOut, isAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
-router.route("/healthCheck").get(isAuthenticated, isAdmin, healthcheck);
+router.route("/healthCheck").get(isLoggedIn, isAdmin, healthcheck);
 router.route("/seed").post(seedUser);
 router.route("/").get(getUsers);
-router.route("/:id").get(isAuthenticated, getUser);
+router.route("/:id").get(isLoggedIn, getUser);
 router.route("/delete/:id").delete(deleteUserById);
 router
   .route("/register")

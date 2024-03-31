@@ -7,7 +7,7 @@ dotenv.config({
   path: "../config/.env",
 });
 
-const isAuthenticated = async (req, res, next) => {
+const isLoggedIn = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) {
@@ -60,4 +60,4 @@ const isAdmin = async (req, res, next) => {
   }
 };
 
-export { isAuthenticated, isloggedOut, isAdmin };
+export { isLoggedIn, isloggedOut, isAdmin };
