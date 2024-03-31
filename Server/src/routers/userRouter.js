@@ -15,10 +15,10 @@ import {
 import { upload } from "../middleware/multer.middleware.js";
 import { validation, LoginValidation } from "../utils/validation.js";
 import { runValidation } from "../index.js";
-import { isLoggedIn, isloggedOut, isAdmin } from "../middleware/auth.js";
+import { isLoggedIn, isloggedOut, isAdmin, isBan } from "../middleware/auth.js";
 
 const router = express.Router();
-router.route("/healthCheck").get(isLoggedIn, isAdmin, healthcheck);
+router.route("/healthCheck").get(isLoggedIn, isAdmin, isBan, healthcheck);
 router.route("/seed").post(seedUser);
 router.route("/").get(getUsers);
 router.route("/:id").get(isLoggedIn, getUser);

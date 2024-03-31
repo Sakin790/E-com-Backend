@@ -51,7 +51,7 @@ const isloggedOut = async (req, res, next) => {
 
 const isAdmin = async (req, res, next) => {
   console.log(req.user.isAdmin);
-  
+
   try {
     if (!req.user.isAdmin) {
       return res
@@ -64,4 +64,17 @@ const isAdmin = async (req, res, next) => {
   }
 };
 
-export { isLoggedIn, isloggedOut, isAdmin };
+const isBan = async (req, res, next) => {
+  console.log(req.user.isBanned);
+
+  try {
+    if (req.user.isBanned === true) {
+      return res.status(403).json({ message: "You are Banned" });
+    }
+    next();
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export { isLoggedIn, isloggedOut, isAdmin, isBan };

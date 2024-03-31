@@ -254,14 +254,16 @@ const BanUserByID = async (req, res, next) => {
         message: "UserID is required",
       });
 
-    /*model er is banned field ta update korbo */
+    /* model er isBanned field ta update korbo */
     const updates = { isBanned: true };
-    /*return korar somoy update value retunr korbe */
+
+    /* return korar somoy updated value retunr korbe */
     const updateOption = {
       new: true,
       runValidators: true,
       context: "query",
     };
+
     /* Main Query */
     const updateUser = await User.findByIdAndUpdate(
       userID,
@@ -270,13 +272,20 @@ const BanUserByID = async (req, res, next) => {
     ).select("-password");
 
     if (!updateUser) {
-      throw new apiError(403, "User not found");
+      throw new Error("User not found");
     }
-    return new apiResponse(201, "success", updateUser);
+    // Return response to client
+    return res.status(201).json({
+      message: `${updateUser.name} successfully Banned`,
+    });
+
   } catch (error) {
-    next(error);
+    // Pass error to the next middleware for handling
+    return next(error);
   }
 };
+
+
 
 export {
   getUsers,
