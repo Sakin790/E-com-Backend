@@ -12,6 +12,7 @@ import {
   logout,
   BanUserByID,
 } from "../controllers/userController.js";
+
 import { upload } from "../middleware/multer.middleware.js";
 import { validation, LoginValidation } from "../utils/validation.js";
 import { runValidation } from "../index.js";
