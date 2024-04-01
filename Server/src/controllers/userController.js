@@ -246,78 +246,46 @@ const logout = (req, res) => {
   });
 };
 
-const UnBanUserByID = async (req, res, next) => {
+const userStatusByID = async (req, res, next) => {
   try {
     const userID = req.params.id;
-    if (!userID)
-      return res.status(403).json({
-        message: "UserID is required",
-      });
+    const action = req.body.action;
 
-    /* model er isBanned field ta update korbo */
-    const updates = { isBanned: true };
-
-    /* return korar somoy updated value retunr korbe */
+    let update;
+    let message;
+    if (action === "ban") {
+      update = { banned: true }; // Assuming you have a 'banned' field in your User model
+      message = "User Banned Successfully";
+    } else if (action === "unban") {
+      update = { banned: false }; // Assuming you have a 'banned' field in your User model
+      message = "User Unbanned Successfully";
+    } else {
+      throw new apiError(400, "Invalid Action");
+    }
     const updateOption = {
       new: true,
       runValidators: true,
       context: "query",
     };
 
-    /* Main Query */
     const updateUser = await User.findByIdAndUpdate(
       userID,
-      updates,
+      update,
       updateOption
     ).select("-password");
 
     if (!updateUser) {
-      throw new Error("User not found");
+      return res.status(404).json({ error: "User not found" });
     }
-    // Return response to client
-    return res.status(201).json({
-      message: `${updateUser.name} successfully unBanned`,
-    });
+    
+    // Instead of 'throw', use 'return' to send the response
+    return res.status(200).json(new apiResponse(200, {
+      message: message,
+      user: updateUser,
+    }));
+
   } catch (error) {
-    // Pass error to the next middleware for handling
-    return next(error);
-  }
-};
-
-const BanUserByID = async (req, res, next) => {
-  try {
-    const userID = req.params.id;
-    if (!userID)
-      return res.status(403).json({
-        message: "UserID is required",
-      });
-
-    /* model er isBanned field ta update korbo */
-    const updates = { isBanned: false };
-
-    /* return korar somoy updated value retunr korbe */
-    const updateOption = {
-      new: true,
-      runValidators: true,
-      context: "query",
-    };
-
-    /* Main Query */
-    const updateUser = await User.findByIdAndUpdate(
-      userID,
-      updates,
-      updateOption
-    ).select("-password");
-
-    if (!updateUser) {
-      throw new Error("User not found");
-    }
-    // Return response to client
-    return res.status(201).json({
-      message: `${updateUser.name} successfully unBanned`,
-    });
-  } catch (error) {
-    return next(`Something went wrong while unbaning ${updateUser.name}`);
+    next(error);
   }
 };
 
@@ -331,6 +299,5 @@ export {
   updateUserById,
   Login,
   logout,
-  BanUserByID,
-  UnBanUserByID,
+  userStatusByID,
 };

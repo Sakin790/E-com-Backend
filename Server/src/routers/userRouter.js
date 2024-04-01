@@ -10,17 +10,16 @@ import {
   updateUserById,
   Login,
   logout,
-  BanUserByID,
-  UnBanUserByID,
+  userStatusByID,
 } from "../controllers/userController.js";
 
 import { upload } from "../middleware/multer.middleware.js";
 import { validation, LoginValidation } from "../utils/validation.js";
 import { runValidation } from "../index.js";
-import { isLoggedIn, isloggedOut, isAdmin, isBan } from "../middleware/auth.js";
+import { isLoggedIn, isloggedOut, isAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
-router.route("/healthCheck").get(isLoggedIn, isAdmin, isBan, healthcheck);
+router.route("/healthCheck").get(isLoggedIn, isAdmin, healthcheck);
 router.route("/seed").post(seedUser);
 router.route("/").get(getUsers);
 router.route("/:id").get(isLoggedIn, getUser);
@@ -31,10 +30,6 @@ router
 router.route("/update/:id").put(upload.single("image"), updateUserById);
 router.route("/login").post(LoginValidation, runValidation, isloggedOut, Login);
 router.route("/logout").post(logout);
-
-router.route("/ban-user/:id").post(isLoggedIn, isAdmin, BanUserByID);
-
-router.route("/unban-user/:id").put(isLoggedIn, isAdmin, UnBanUserByID);
-
+router.route("/status/:id").put(userStatusByID);
 
 export { router };
