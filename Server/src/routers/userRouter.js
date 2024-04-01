@@ -11,6 +11,7 @@ import {
   Login,
   logout,
   BanUserByID,
+  UnBanUserByID,
 } from "../controllers/userController.js";
 
 import { upload } from "../middleware/multer.middleware.js";
@@ -32,5 +33,8 @@ router.route("/login").post(LoginValidation, runValidation, isloggedOut, Login);
 router.route("/logout").post(logout);
 
 router.route("/ban-user/:id").post(isLoggedIn, isAdmin, BanUserByID);
+
+router.route("/unban-user/:id").put(isLoggedIn, isAdmin, UnBanUserByID);
+
 
 export { router };

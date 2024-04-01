@@ -246,7 +246,7 @@ const logout = (req, res) => {
   });
 };
 
-const BanUserByID = async (req, res, next) => {
+const UnBanUserByID = async (req, res, next) => {
   try {
     const userID = req.params.id;
     if (!userID)
@@ -276,16 +276,50 @@ const BanUserByID = async (req, res, next) => {
     }
     // Return response to client
     return res.status(201).json({
-      message: `${updateUser.name} successfully Banned`,
+      message: `${updateUser.name} successfully unBanned`,
     });
-
   } catch (error) {
     // Pass error to the next middleware for handling
     return next(error);
   }
 };
 
+const BanUserByID = async (req, res, next) => {
+  try {
+    const userID = req.params.id;
+    if (!userID)
+      return res.status(403).json({
+        message: "UserID is required",
+      });
 
+    /* model er isBanned field ta update korbo */
+    const updates = { isBanned: false };
+
+    /* return korar somoy updated value retunr korbe */
+    const updateOption = {
+      new: true,
+      runValidators: true,
+      context: "query",
+    };
+
+    /* Main Query */
+    const updateUser = await User.findByIdAndUpdate(
+      userID,
+      updates,
+      updateOption
+    ).select("-password");
+
+    if (!updateUser) {
+      throw new Error("User not found");
+    }
+    // Return response to client
+    return res.status(201).json({
+      message: `${updateUser.name} successfully unBanned`,
+    });
+  } catch (error) {
+    return next(`Something went wrong while unbaning ${updateUser.name}`);
+  }
+};
 
 export {
   getUsers,
@@ -298,4 +332,5 @@ export {
   Login,
   logout,
   BanUserByID,
+  UnBanUserByID,
 };
