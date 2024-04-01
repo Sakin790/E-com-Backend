@@ -223,17 +223,22 @@ const Login = async (req, res, next) => {
       });
     }
 
-    const token = await jwt.sign({ user }, process.env.TOKEN_SECRET, {
+    const accessToken = await jwt.sign({ user }, process.env.TOKEN_SECRET, {
       expiresIn: "1d",
     });
+
     return res
       .status(201)
-      .cookie("token", token, { expiresIn: "1d", httpOnly: true })
+      .cookie("token", accessToken, { expiresIn: "1d", httpOnly: true })
       .json({
         message: `Welcome back ${user.name}`,
         user,
         success: true,
       });
+
+      
+  
+
   } catch (error) {
     console.log("something went wrong while trying to Login", error);
   }
@@ -277,13 +282,14 @@ const userStatusByID = async (req, res, next) => {
     if (!updateUser) {
       return res.status(404).json({ error: "User not found" });
     }
-    
-    // Instead of 'throw', use 'return' to send the response
-    return res.status(200).json(new apiResponse(200, {
-      message: message,
-      user: updateUser,
-    }));
 
+    // Instead of 'throw', use 'return' to send the response
+    return res.status(200).json(
+      new apiResponse(200, {
+        message: message,
+        user: updateUser,
+      })
+    );
   } catch (error) {
     next(error);
   }
