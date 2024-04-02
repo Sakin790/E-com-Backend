@@ -259,10 +259,10 @@ const userStatusByID = async (req, res, next) => {
     let update;
     let message;
     if (action === "ban") {
-      update = { banned: true }; // Assuming you have a 'banned' field in your User model
+      update = { banned: true }; 
       message = "User Banned Successfully";
     } else if (action === "unban") {
-      update = { banned: false }; // Assuming you have a 'banned' field in your User model
+      update = { banned: false };
       message = "User Unbanned Successfully";
     } else {
       throw new apiError(400, "Invalid Action");
