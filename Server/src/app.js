@@ -5,6 +5,7 @@ import xssClean from "xss-clean";
 import rateLimit from "express-rate-limit";
 import { router } from "./routers/userRouter.js";
 import cookieParser from "cookie-parser";
+import { categoryRouter } from "./routers/categoryRouter.js";
 
 const app = express();
 app.use(morgan("dev"));
@@ -20,6 +21,10 @@ const rateLimiter = rateLimit({
 app.use(rateLimiter);
 app.use(cookieParser());
 
+//UserRouter routes
 app.use("/api/users", router);
+
+//Category routes
+app.use("/api/category", categoryRouter);
 
 export default app;
