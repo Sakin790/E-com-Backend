@@ -1,6 +1,6 @@
 import { body } from "express-validator";
-const validation = [
-  body("category")
+const categoryValidation = [
+  body("name")
     .trim()
     .notEmpty()
     .withMessage("category is Required")
@@ -8,4 +8,4 @@ const validation = [
     .withMessage("category name can be either 3 charector "),
 ];
 
-export { validation };
+export { categoryValidation };
