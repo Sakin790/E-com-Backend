@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const categorySchema = new mongoose.Schema(
   {
-    category: {
+    name: {
       type: String,
       required: [true, "category is required"],
       trim: true,
@@ -13,7 +13,6 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: [true, "slug is required"],
       lowercase: true,
-      unique: true,
       minlength: [3, "minlength 3 is required"],
     },
   },
@@ -21,4 +20,4 @@ const categorySchema = new mongoose.Schema(
 );
 
 const Category = mongoose.model("category", categorySchema);
-export { User };
+export { Category };
